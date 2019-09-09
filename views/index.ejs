@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Message Board</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <h1>The Dojo Message Board</h1>
+        <% JSON.stringify(messages) %> 
+        <% if(messages.registration) { %>
+            <ul>
+            <% for (var x of messages.registration) { %>
+                <li><%= x %></li>
+            <% } %>
+            </ul>
+        <% } %>
+        <form action = '/message/new' method = 'post'>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Name</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder = 'Name' name = 'name'>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Message:</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name = 'content'></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <% for(message of the_messages) { %>
+            <h3>Name: <%= message.name %></h3>
+            <h3>Message: <%= message.content %></h3>
+            <div style = 'margin-left: 50px'>
+            <% for(comment of message.comments) { %>
+                    <p>Name: <%= comment.name %></p>
+                    <p>Comment: <%= comment.content %></p>
+            <% } %>
+                <form action = '/comment/new/<%= message._id %>' method = 'post'>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Name</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder = 'Name' name = 'name'>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Comment:</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name = 'content'></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>
